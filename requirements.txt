@@ -1,0 +1,9 @@
+dvc
+torch
+torchvision
+ultralytics
+onnx
+notebook
+scikit-learn
+matplotlib
+numpy
