@@ -1,9 +1,12 @@
 from ultralytics import YOLO
 
 
-model = YOLO("./data/models/best.pt")
+model = YOLO("data/models/best_v9_9.pt")
 
-results = model(["im1.jpg", "im2.jpg"])
+results = model('./test/')
 
 for result in results:
-    result.show() 
+    result.save()
+    #result.show()
+
+model.export(format='onnx')
