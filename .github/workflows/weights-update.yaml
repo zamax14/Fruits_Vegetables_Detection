@@ -50,7 +50,7 @@ jobs:
     - name: Update DVC
       run: |
         cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
-        dvc add ./app/weigths/best_v9_9.onnx
+        dvc add ./app/weigths/
         dvc push
 
     - name: Commit and push changes
