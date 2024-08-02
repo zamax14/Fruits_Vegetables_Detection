@@ -6,7 +6,7 @@ on:
       - data/models.dvc
 
 jobs:
-  sync-file:
+  Auto-Update-Api-Weights:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,30 +34,35 @@ jobs:
       run: |
         git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git
       env:
-        PAT: ${{ secrets.PAT }}
-
-    - name: Pull weights from both repos
+         PAT: ${{ secrets.PAT }}
+         
+    - name: Clone destination repository
       run: |
-        cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection
-        dvc pull
-        cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API
-        dvc pull
+        cd
+        pwd
 
-    - name: Copy weigths 
-      run: |
-        cp /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection/data/models/best_v9.onnx /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/app/weigths/best_v9_9.onnx
+    # - name: Pull weights from both repos
+    #   run: |
+    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection
+    #     dvc pull
+    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API
+    #     dvc pull
 
-    - name: Update DVC
-      run: |
-        cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
-        dvc add ./app/weigths/
-        dvc push
+    # - name: Copy weigths 
+    #   run: |
+    #     cp /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection/data/models/best_v9.onnx /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/app/weigths/best_v9_9.onnx
 
-    - name: Commit and push changes
-      run: |
-        cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
-        git add . 
-        git commit -m "Update weights from Github Actions."
-        git push https://zamax14:${{ secrets.PAT }}@github.com/zamax14/Fruits_Vegetables_Detection_API.git
-      env:
-        PAT: ${{ secrets.PAT }}
+    # - name: Update DVC
+    #   run: |
+    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
+    #     dvc add ./app/weigths/
+    #     dvc push
+
+    # - name: Commit and push changes
+    #   run: |
+    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
+    #     git add . 
+    #     git commit -m "Update weights from Github Actions."
+    #     git push https://zamax14:${{ secrets.PAT }}@github.com/zamax14/Fruits_Vegetables_Detection_API.git
+    #   env:
+    #     PAT: ${{ secrets.PAT }}
