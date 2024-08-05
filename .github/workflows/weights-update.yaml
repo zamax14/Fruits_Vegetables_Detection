@@ -2,6 +2,8 @@ name: Update weights in API repo
 
 on:
   push:
+    branches:
+      - master
     paths:
       - data/models.dvc
 

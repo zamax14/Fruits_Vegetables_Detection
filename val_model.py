@@ -13,7 +13,5 @@ data = {"map": metrics.box.map,
         "Recall": metrics.box.mr
 }
 
-print(data)
-
 with open("metrics.json", 'w') as outfile:
         json.dump(data, outfile, indent=4)
