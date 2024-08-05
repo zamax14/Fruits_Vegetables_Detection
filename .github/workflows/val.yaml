@@ -1,15 +1,14 @@
 name: FV_Model Validation
 on: [push]
 jobs:
-  train-and-report:
+  val-and-report:
     runs-on: ubuntu-latest
+    container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - uses: iterative/setup-cml@v1
-      - uses: iterative/setup-dvc@v1
       - name: Create CML report
         env:
           REPO_TOKEN: ${{ secrets.PAT }}
