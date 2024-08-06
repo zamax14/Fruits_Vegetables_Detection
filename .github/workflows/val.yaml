@@ -23,13 +23,10 @@ jobs:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
           echo "Installing dependencies..."
-          pip install --upgrade pip
-          pip install --upgrade cryptography
-          pip install dvc[gdrive]
-          #pip install -r requirements.txt
+          pip install -r requirements.txt
 
           echo "Pulling data..."
-          dvc pull -r myremote
+          dvc pull
 
       - name: Validate model
         env:
