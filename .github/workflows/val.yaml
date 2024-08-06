@@ -25,6 +25,10 @@ jobs:
           echo "Installing dependencies..."
           pip install -r requirements.txt
 
+          echo "Setting remote credentials"
+          dvc remote modify myremote --local \
+              gdrive_service_account_json_file_path ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+
           echo "Pulling data..."
           dvc pull
 
