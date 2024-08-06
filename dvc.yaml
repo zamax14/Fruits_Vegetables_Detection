@@ -1,6 +1,4 @@
 stages:
-  pull_data:
-    cmd: dvc pull
   val_model:
     cmd: python val_model.py
     deps:

@@ -4,24 +4,38 @@ jobs:
   val-and-report:
     runs-on: ubuntu-latest
     container: docker://dvcorg/cml-py3:latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Create CML report
+
+      - name: Install dependencies and validate
         env:
           REPO_TOKEN: ${{ secrets.PAT }}
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
+          echo "Installing dependencies..."
           pip install -r requirements.txt
-          # dvc remote modify myremote --local gdrive_service_account_json_file_path ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+
+          echo "Pulling data..."
+          dvc pull
+
+          echo "Running DVC pipeline..."
           dvc repro
 
+          echo "Fetching latest changes..."
           git fetch --prune
+
+          echo "Generating metrics diff..."
           dvc metrics diff --show-md master > report.md
 
-          # Add figure to the report
-          echo "## Validating results"
+          echo "## Validating results" >> report.md
           cml-publish runs/detect/val/confusion_matrix_normalized.png --md >> report.md
+
+          echo "Sending report as a comment..."
           cml-send-comment report.md
