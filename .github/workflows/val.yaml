@@ -49,7 +49,7 @@ jobs:
           git fetch --prune
 
           echo "Generating metrics diff..."
-          dvc metrics diff --show-md master > report.md
+          dvc metrics diff --md master > report.md
 
           echo "## Validating results" >> report.md
           cml-publish runs/detect/val/confusion_matrix_normalized.png --md >> report.md
