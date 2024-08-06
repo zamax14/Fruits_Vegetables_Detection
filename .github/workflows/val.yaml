@@ -3,7 +3,6 @@ on: [push]
 jobs:
   val-and-report:
     runs-on: ubuntu-latest
-    container: docker://dvcorg/cml-py3:latest
 
     steps:
       - name: Checkout repository
@@ -11,10 +10,14 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      
+      - name: Setup CML
+        uses: iterative/setup-cml@v1
+      
+      - name: Setup DVC
+        uses: iterative/setup-dvc@v1
 
-      - name: Install dependencies and validate
+      - name: Install dependencies
         env:
           REPO_TOKEN: ${{ secrets.PAT }}
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
@@ -25,6 +28,11 @@ jobs:
           echo "Pulling data..."
           dvc pull
 
+      - name: Validate model
+        env:
+          REPO_TOKEN: ${{ secrets.PAT }}
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+        run: |
           echo "Running DVC pipeline..."
           dvc repro
 
