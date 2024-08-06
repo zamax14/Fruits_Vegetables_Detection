@@ -1,7 +1,12 @@
 schema: '2.0'
 stages:
-  pull_data:
-    cmd: dvc pull
+  create_cfg:
+    cmd: python create_yaml_cfg.py
+    outs:
+    - path: ./data/data.yaml
+      hash: md5
+      md5: acd52d0b8d249608b17c964fa9b36cbc
+      size: 392
   val_model:
     cmd: python val_model.py
     deps:
@@ -14,10 +19,3 @@ stages:
       hash: md5
       md5: cbe32edeb541a92257a1cc8c08952912
       size: 650
-  create_cfg:
-    cmd: python create_yaml_cfg.py
-    outs:
-    - path: ./data/data.yaml
-      hash: md5
-      md5: acd52d0b8d249608b17c964fa9b36cbc
-      size: 392
