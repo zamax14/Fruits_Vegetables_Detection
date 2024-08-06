@@ -3,7 +3,7 @@ import json
 
 model = YOLO("data/models/best_v9.pt")
 
-metrics = model.val(data='data/fruits_and_vegetables/data.yaml', save_json=True, batch=1)
+metrics = model.val(data='data/data.yaml', save_json=True, batch=1)
 
 data = {"map": metrics.box.map, 
         "map50": metrics.box.map50, 

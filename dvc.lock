@@ -5,12 +5,19 @@ stages:
   val_model:
     cmd: python val_model.py
     deps:
-    - path: val_model.py
+    - path: ./data/data.yaml
       hash: md5
-      md5: ebfa7d45ee3066aed3c1f3442a4c1c36
-      size: 493
+      md5: acd52d0b8d249608b17c964fa9b36cbc
+      size: 392
     outs:
     - path: metrics.json
       hash: md5
       md5: cbe32edeb541a92257a1cc8c08952912
       size: 650
+  create_cfg:
+    cmd: python create_yaml_cfg.py
+    outs:
+    - path: ./data/data.yaml
+      hash: md5
+      md5: acd52d0b8d249608b17c964fa9b36cbc
+      size: 392

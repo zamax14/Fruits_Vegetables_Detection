@@ -29,5 +29,5 @@ data = {
     ]
 }
 
-with open('data/fruits_and_vegetables/data.yaml', 'w') as file:
+with open('data/data.yaml', 'w') as file:
     yaml.dump(data, file, default_flow_style=False)
