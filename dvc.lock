@@ -1,19 +1,19 @@
 schema: '2.0'
 stages:
   create_cfg:
-    cmd: python create_yaml_cfg.py
+    cmd: python create_yaml_cfg.py && cat data/data.yaml
     outs:
     - path: ./data/data.yaml
       hash: md5
-      md5: acd52d0b8d249608b17c964fa9b36cbc
-      size: 392
+      md5: 30d3b716a97c41331ad1a898ef84aac3
+      size: 342
   val_model:
     cmd: python val_model.py
     deps:
     - path: ./data/data.yaml
       hash: md5
-      md5: acd52d0b8d249608b17c964fa9b36cbc
-      size: 392
+      md5: 30d3b716a97c41331ad1a898ef84aac3
+      size: 342
     outs:
     - path: metrics.json
       hash: md5

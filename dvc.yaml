@@ -1,6 +1,6 @@
 stages:
   create_cfg:
-      cmd: python create_yaml_cfg.py
+      cmd: python create_yaml_cfg.py && cat data/data.yaml
       outs:
       - ./data/data.yaml
   val_model:
