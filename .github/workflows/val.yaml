@@ -55,7 +55,7 @@ jobs:
           dvc metrics diff --md master > report.md
 
           echo "## Validating results" >> report.md
-          echo '![(val_output/val_metrics/confusion_matrix_normalized.png)]' >> report.md
+          echo '![](./val_output/val_metrics/confusion_matrix_normalized.png)' >> report.md
 
           echo "Sending report as a comment..."
           cml comment create report.md
