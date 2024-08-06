@@ -1,7 +1,5 @@
 __pycache__/
 runs/
-val_output/val_metrics/*
-!val_output/val_metrics/confusion_matrix_normalized.png
-!val_output/val_metrics/confusion_matrix.png
+val_output/
 .gdrive
 
