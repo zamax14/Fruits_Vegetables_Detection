@@ -2,12 +2,11 @@ stages:
   create_cfg:
       cmd: python create_yaml_cfg.py
       outs:
-      - ./data/data.yaml
-
+      - ./data/data_model.yaml
   val_model:
     cmd: python val_model.py
     deps:
-    - ./data/data.yaml
+    - ./data/data_model.yaml
     metrics:
     - metrics.json:
         cache: false

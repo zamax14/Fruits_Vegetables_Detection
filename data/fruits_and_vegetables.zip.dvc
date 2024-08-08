@@ -1,0 +1,5 @@
+outs:
+- md5: 514d1ca57eb26df02db896338d4be28b
+  size: 657556338
+  hash: md5
+  path: fruits_and_vegetables.zip

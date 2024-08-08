@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - data/models.dvc
+      - data/models.zip.dvc
 
 jobs:
   Auto-Update-Api-Weights:

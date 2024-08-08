@@ -26,6 +26,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libssl-dev
           sudo apt-get install --upgrade openssl
+          sudo apt install unzip
           python -m pip install --upgrade pip
           pip install --upgrade cryptography
           pip install --upgrade pyopenssl
@@ -33,6 +34,8 @@ jobs:
 
           echo "Pulling data..."
           dvc pull
+          unzip data/fruits_and_vegetables.zip -d data/
+          unzip data/models.zip -d data/
 
       - name: Validate model
         env:
@@ -43,7 +46,7 @@ jobs:
           pip install -r requirements.txt
 
           echo "Running DVC pipeline..."
-          dvc repro
+          dvc repro -f
 
           echo "Fetching latest changes..."
           git fetch --prune
@@ -52,7 +55,7 @@ jobs:
           dvc metrics diff --md master > report.md
 
           echo "## Validating results" >> report.md
-          cml-publish runs/detect/val/confusion_matrix_normalized.png --md >> report.md
+          echo '![](./val_output/val_metrics/confusion_matrix_normalized.png)' >> report.md
 
           echo "Sending report as a comment..."
-          cml-send-comment report.md
+          cml comment create report.md
