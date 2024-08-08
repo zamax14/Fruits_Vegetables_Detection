@@ -46,7 +46,7 @@ jobs:
           pip install -r requirements.txt
 
           echo "Running DVC pipeline..."
-          dvc repro
+          dvc repro -f
 
           echo "Fetching latest changes..."
           git fetch --prune
