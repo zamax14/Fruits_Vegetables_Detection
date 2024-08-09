@@ -37,7 +37,7 @@ jobs:
          PAT: ${{ secrets.PAT }}
       run: |
         cd ..
-        git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git
+        git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git && echo "Clone completed"
 
     - name: Pull weights from both repos
       env:
