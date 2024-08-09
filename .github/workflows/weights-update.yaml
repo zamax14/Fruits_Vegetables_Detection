@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - data/models.zip.dvc
+    paths:
+      - data/models.zip.dvc
 
 jobs:
   Auto-Update-Api-Weights:
