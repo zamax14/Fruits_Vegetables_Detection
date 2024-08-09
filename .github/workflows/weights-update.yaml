@@ -74,7 +74,6 @@ jobs:
       env:
         GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
       run: |
-        cd Fruits_Vegetables_Detection_API/
         dvc add ./app/weigths/best_v9_9.onnx
         dvc push
         echo "Weights pushed to dvc"
