@@ -40,33 +40,37 @@ jobs:
         pip install --upgrade -r requirements.txt
 
     - name: Clone repository
+      working-directory: ..
       env:
          PAT: ${{ secrets.PAT }}
       run: |
-        cd ..
-        git clone https://github.com/zamax14/Fruits_Vegetables_Detection.git && echo "Clone completed"
-        git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git && echo "Clone completed"
+        git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git
+        echo "Clone completed"
 
-    - name: Pull weights from both repos
+    - name: Pull weights from model repo
       env:
         GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
       run: |
-        cd Fruits_Vegetables_Detection
         dvc pull
         unzip data/models.zip -d data/
-        cd..
+        echo "Weights pulled"
 
-        cd Fruits_Vegetables_Detection_API
+    - name: Pull weights from api repo
+      working-directory: ../Fruits_Vegetables_Detection_API
+      env:
+        GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+      run: |
         dvc pull
-        cd..
         echo "Weights pulled"
 
     - name: Copy weigths 
+      working-directory: ..
       run: |
         cp Fruits_Vegetables_Detection/data/models/best_v9.onnx Fruits_Vegetables_Detection_API/app/weigths/best_v9_9.onnx
         echo "Weights updated"
 
     - name: Update DVC
+      working-directory: ../Fruits_Vegetables_Detection_API
       env:
         GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
       run: |
@@ -76,6 +80,7 @@ jobs:
         echo "Weights pushed to dvc"
 
     - name: Commit and push changes
+      working-directory: ../Fruits_Vegetables_Detection_API
       env:
           PAT: ${{ secrets.PAT }}
       run: |
