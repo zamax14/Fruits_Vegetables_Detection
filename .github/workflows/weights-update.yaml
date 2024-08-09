@@ -28,16 +28,16 @@ jobs:
         python-version: '3.11'
 
     - name: Install dependencies
-        run: |
-          echo "Installing DVC dependencies..."
-          sudo apt-get update
-          sudo apt-get install libssl-dev
-          sudo apt-get install --upgrade openssl
-          sudo apt-get install unzip
+      run: |
+        echo "Installing DVC dependencies..."
+        sudo apt-get update
+        sudo apt-get install libssl-dev
+        sudo apt-get install --upgrade openssl
+        sudo apt-get install unzip
 
-          echo "Installing python packages..."
-          python -m pip install --upgrade pip
-          pip install --upgrade -r requirements.txt
+        echo "Installing python packages..."
+        python -m pip install --upgrade pip
+        pip install --upgrade -r requirements.txt
 
     - name: Clone repository
       env:
