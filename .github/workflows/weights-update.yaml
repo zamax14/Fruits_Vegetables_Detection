@@ -28,15 +28,23 @@ jobs:
         python-version: '3.11'
 
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        run: |
+          echo "Installing DVC dependencies..."
+          sudo apt-get update
+          sudo apt-get install libssl-dev
+          sudo apt-get install --upgrade openssl
+          sudo apt-get install unzip
 
-    - name: Clone API repository
+          echo "Installing python packages..."
+          python -m pip install --upgrade pip
+          pip install --upgrade -r requirements.txt
+
+    - name: Clone repository
       env:
          PAT: ${{ secrets.PAT }}
       run: |
         cd ..
+        git clone https://github.com/zamax14/Fruits_Vegetables_Detection.git && echo "Clone completed"
         git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git && echo "Clone completed"
 
     - name: Pull weights from both repos
