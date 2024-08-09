@@ -1,5 +1,8 @@
 name: FV_Model Validation
-on: [push]
+on: 
+  push:
+    branches-ignore:
+     -master
 jobs:
   val-and-report:
     runs-on: ubuntu-latest
@@ -18,36 +21,39 @@ jobs:
         uses: iterative/setup-dvc@v1
 
       - name: Install dependencies
-        env:
-          REPO_TOKEN: ${{ secrets.PAT }}
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
           echo "Installing DVC dependencies..."
           sudo apt-get update
           sudo apt-get install libssl-dev
           sudo apt-get install --upgrade openssl
-          sudo apt install unzip
-          python -m pip install --upgrade pip
-          pip install --upgrade cryptography
-          pip install --upgrade pyopenssl
-          pip install dvc[gdrive]
+          sudo apt-get install unzip
 
+          echo "Installing python packages..."
+          python -m pip install --upgrade pip
+          pip install --upgrade -r requirements.txt
+
+      - name: Pulling data from DVC
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+        run: |
           echo "Pulling data..."
           dvc pull
+          
+          echo "Unzip data..."
           unzip data/fruits_and_vegetables.zip -d data/
           unzip data/models.zip -d data/
 
       - name: Validate model
         env:
           REPO_TOKEN: ${{ secrets.PAT }}
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
-          echo "Install requirements"
-          pip install -r requirements.txt
-
           echo "Running DVC pipeline..."
           dvc repro -f
 
+      - name: Generate metrics report
+        env:
+          REPO_TOKEN: ${{ secrets.PAT }}
+        run: |
           echo "Fetching latest changes..."
           git fetch --prune
 

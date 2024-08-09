@@ -1,5 +1,7 @@
 dvc
 dvc_gdrive
+cryptography
+pyopenssl
 torch
 torchvision
 ultralytics
@@ -8,4 +10,3 @@ notebook
 scikit-learn
 matplotlib
 numpy
-pyopenssl
