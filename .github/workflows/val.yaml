@@ -23,9 +23,9 @@ jobs:
       - name: Install dependencies
         run: |
           echo "Installing DVC dependencies..."
-          sudo apt update
-          sudo apt install libssl-dev
-          sudo apt install openssl
+          sudo apt-get update
+          sudo apt-get install libssl-dev
+          sudo apt-get install --upgrade openssl
           sudo apt install unzip
 
           echo "Installing python packages..."
