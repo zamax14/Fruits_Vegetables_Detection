@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-    paths:
-      - data/models.zip.dvc
+    # paths:
+    #   - data/models.zip.dvc
 
 jobs:
   Auto-Update-Api-Weights:
@@ -51,10 +51,12 @@ jobs:
         cd Fruits_Vegetables_Detection_API
         dvc pull
         cd..
+        echo "Weights pulled"
 
     - name: Copy weigths 
       run: |
         cp Fruits_Vegetables_Detection/data/models/best_v9.onnx Fruits_Vegetables_Detection_API/app/weigths/best_v9_9.onnx
+        echo "Weights updated"
 
     - name: Update DVC
       env:
@@ -62,7 +64,8 @@ jobs:
       run: |
         cd Fruits_Vegetables_Detection_API/
         dvc add ./app/weigths/best_v9_9.onnx
-        #dvc push
+        dvc push
+        echo "Weights pushed to dvc"
 
     - name: Commit and push changes
       env:
@@ -70,5 +73,6 @@ jobs:
       run: |
         git add ./app/weigths/best_v9_9.onnx.dvc
         git commit -m "Update weights from Github Actions."
-        #git push https://zamax14:${{ secrets.PAT }}@github.com/zamax14/Fruits_Vegetables_Detection_API.git
+        git push https://zamax14:${{ secrets.PAT }}@github.com/zamax14/Fruits_Vegetables_Detection_API.git
+        echo "Changes in api repo pushed"
       
