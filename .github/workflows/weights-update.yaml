@@ -32,39 +32,43 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Clone destination repository
-      run: |
-        git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git
+    - name: Clone API repository
       env:
          PAT: ${{ secrets.PAT }}
-         
-    - name: Clone destination repository
       run: |
-        cd
-        pwd
+        cd ..
+        git clone https://github.com/zamax14/Fruits_Vegetables_Detection_API.git
 
-    # - name: Pull weights from both repos
-    #   run: |
-    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection
-    #     dvc pull
-    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API
-    #     dvc pull
+    - name: Pull weights from both repos
+      env:
+        GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+      run: |
+        cd Fruits_Vegetables_Detection
+        dvc pull
+        unzip data/models.zip -d data/
+        cd..
 
-    # - name: Copy weigths 
-    #   run: |
-    #     cp /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection/data/models/best_v9.onnx /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/app/weigths/best_v9_9.onnx
+        cd Fruits_Vegetables_Detection_API
+        dvc pull
+        cd..
 
-    # - name: Update DVC
-    #   run: |
-    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
-    #     dvc add ./app/weigths/
-    #     dvc push
+    - name: Copy weigths 
+      run: |
+        cp Fruits_Vegetables_Detection/data/models/best_v9.onnx Fruits_Vegetables_Detection_API/app/weigths/best_v9_9.onnx
 
-    # - name: Commit and push changes
-    #   run: |
-    #     cd /home/runner/work/Fruits_Vegetables_Detection/Fruits_Vegetables_Detection_API/
-    #     git add . 
-    #     git commit -m "Update weights from Github Actions."
-    #     git push https://zamax14:${{ secrets.PAT }}@github.com/zamax14/Fruits_Vegetables_Detection_API.git
-    #   env:
-    #     PAT: ${{ secrets.PAT }}
+    - name: Update DVC
+      env:
+        GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+      run: |
+        cd Fruits_Vegetables_Detection_API/
+        dvc add ./app/weigths/best_v9_9.onnx
+        #dvc push
+
+    - name: Commit and push changes
+      env:
+          PAT: ${{ secrets.PAT }}
+      run: |
+        git add ./app/weigths/best_v9_9.onnx.dvc
+        git commit -m "Update weights from Github Actions."
+        #git push https://zamax14:${{ secrets.PAT }}@github.com/zamax14/Fruits_Vegetables_Detection_API.git
+      
